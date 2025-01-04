@@ -22,21 +22,19 @@ public class CarteiraService {
     }
 
     public void depositar(Long usuarioId, BigDecimal valor) throws BadRequestException {
+        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0) throw new BadRequestException();
+        if (usuarioId == null) throw new BadRequestException();
         Optional<Carteira> carteira = carteiraRepository.findByUsuario_id(usuarioId);
-        carteira.ifPresentOrElse(
-                carteira1 -> {
-                    carteira1.setValor(carteira1.getValor().add(valor));
-                    carteiraRepository.save(carteira1);
-                    historicoService.registrarHistorico(carteira1,Transacao.DEPOSITO);
-                },
-                BadRequestException::new
-        );
+        var carteiraFinal = carteira.orElseThrow(() -> new BadRequestException("Usuário inválido"));
+
+        carteiraFinal.setValor(carteiraFinal.getValor().add(valor));
+        carteiraRepository.save(carteiraFinal);
+        historicoService.registrarHistorico(carteiraFinal, Transacao.DEPOSITO);
     }
 
     public void sacar(Long usuarioId, BigDecimal valor) throws BadRequestException {
-        if (valor.compareTo(new BigDecimal(0)) < 0) {
+        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0)
             throw new BadRequestException("Valor do saque não pode ser negativo");
-        }
         Optional<Carteira> carteira = carteiraRepository.findByUsuario_id(usuarioId);
         var carteiraFinal = carteira.orElseThrow(() -> new BadRequestException("Usuário invalido"));
 
@@ -46,6 +44,6 @@ public class CarteiraService {
         carteiraFinal.setValor(carteiraFinal.getValor().subtract(valor));
 
         carteiraRepository.save(carteiraFinal);
-        historicoService.registrarHistorico(carteiraFinal,Transacao.SAQUE);
+        historicoService.registrarHistorico(carteiraFinal, Transacao.SAQUE);
     }
 }
