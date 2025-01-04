@@ -1,5 +1,6 @@
-package br.com.gamagustavo.carteirafinanceira;
+package br.com.gamagustavo.carteirafinanceira.repository;
 
+import br.com.gamagustavo.carteirafinanceira.model.entidade.Carteira;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

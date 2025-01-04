@@ -1,4 +1,4 @@
-package br.com.gamagustavo.carteirafinanceira;
+package br.com.gamagustavo.carteirafinanceira.model.entidade;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

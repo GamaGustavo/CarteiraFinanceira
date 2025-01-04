@@ -1,5 +1,6 @@
-package br.com.gamagustavo.carteirafinanceira;
+package br.com.gamagustavo.carteirafinanceira.model.entidade;
 
+import br.com.gamagustavo.carteirafinanceira.model.Transacao;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

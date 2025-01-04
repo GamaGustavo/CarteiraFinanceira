@@ -1,4 +1,4 @@
-package br.com.gamagustavo.carteirafinanceira;
+package br.com.gamagustavo.carteirafinanceira.model.entidade;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
-public class Saque {
+public class Deposito {
     private Long idUsuario;
     private BigDecimal valor;
 }

@@ -1,5 +1,9 @@
-package br.com.gamagustavo.carteirafinanceira;
+package br.com.gamagustavo.carteirafinanceira.service;
 
+import br.com.gamagustavo.carteirafinanceira.model.entidade.Carteira;
+import br.com.gamagustavo.carteirafinanceira.model.entidade.Historico;
+import br.com.gamagustavo.carteirafinanceira.model.Transacao;
+import br.com.gamagustavo.carteirafinanceira.repository.HistoricoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

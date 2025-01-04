@@ -1,5 +1,7 @@
-package br.com.gamagustavo.carteirafinanceira;
+package br.com.gamagustavo.carteirafinanceira.controller;
 
+import br.com.gamagustavo.carteirafinanceira.model.entidade.Usuario;
+import br.com.gamagustavo.carteirafinanceira.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;

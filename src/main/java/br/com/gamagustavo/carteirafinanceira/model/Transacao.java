@@ -1,4 +1,4 @@
-package br.com.gamagustavo.carteirafinanceira;
+package br.com.gamagustavo.carteirafinanceira.model;
 
 public enum Transacao {
 

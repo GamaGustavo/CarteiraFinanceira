@@ -1,5 +1,7 @@
-package br.com.gamagustavo.carteirafinanceira;
+package br.com.gamagustavo.carteirafinanceira.controller;
 
+import br.com.gamagustavo.carteirafinanceira.service.HistoricoService;
+import br.com.gamagustavo.carteirafinanceira.model.entidade.Historico;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

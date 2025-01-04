@@ -1,5 +1,7 @@
-package br.com.gamagustavo.carteirafinanceira;
+package br.com.gamagustavo.carteirafinanceira.service;
 
+import br.com.gamagustavo.carteirafinanceira.model.entidade.Usuario;
+import br.com.gamagustavo.carteirafinanceira.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 @Service
