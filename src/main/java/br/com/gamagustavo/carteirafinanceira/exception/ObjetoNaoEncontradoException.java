@@ -1,6 +1,6 @@
 package br.com.gamagustavo.carteirafinanceira.exception;
 
-public class ObjetoNaoEncontradoException extends RuntimeException {
+public class ObjetoNaoEncontradoException extends BaseException {
 
     public ObjetoNaoEncontradoException(String message) {
         super(message);

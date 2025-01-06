@@ -1,13 +1,12 @@
 package br.com.gamagustavo.carteirafinanceira.service;
 
+import br.com.gamagustavo.carteirafinanceira.exception.UsuarioNaoEncontradoException;
 import br.com.gamagustavo.carteirafinanceira.model.entidade.Usuario;
 import br.com.gamagustavo.carteirafinanceira.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.logging.Logger;
 
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -23,13 +22,12 @@ public class UsuarioService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
-        try {
-            return usuarioRepository.findByEmail(username);
-        } catch (Exception e) {
-            Logger.getLogger(this.getClass().getName()).severe("Falha no Login, usuário não encontrado");
-            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
-            throw e;
-        }
+    public UserDetails loadUserByUsername(String username) throws UsuarioNaoEncontradoException {
+
+            var usuario = usuarioRepository.findByEmail(username);
+            if (usuario == null) throw new UsuarioNaoEncontradoException("Falha na autenticação, usuário ou senha invalido!");
+
+            return usuario;
+
     }
 }
