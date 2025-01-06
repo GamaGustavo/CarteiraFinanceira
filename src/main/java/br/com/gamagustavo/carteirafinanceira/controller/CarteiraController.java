@@ -5,12 +5,10 @@ import br.com.gamagustavo.carteirafinanceira.model.dto.Deposito;
 import br.com.gamagustavo.carteirafinanceira.model.dto.Saque;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("/carteira")
+@RestController
+@RequestMapping("/carteira")
 public class CarteiraController {
 
     private final CarteiraService carteiraService;

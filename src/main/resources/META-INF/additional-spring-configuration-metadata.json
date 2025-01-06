@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "app.secret",
+      "type": "java.lang.String",
+      "description": "Secret para a geração do JWT."
+  }
+] }

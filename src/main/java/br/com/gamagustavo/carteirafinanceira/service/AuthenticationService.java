@@ -1,6 +1,5 @@
 package br.com.gamagustavo.carteirafinanceira.service;
 
-import br.com.gamagustavo.carteirafinanceira.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,10 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService implements UserDetailsService {
 
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;
 
-    public AuthenticationService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+    public AuthenticationService(UsuarioService usuarioService) {
+        super();
+        this.usuarioService = usuarioService;
     }
 
     /**
@@ -29,6 +29,6 @@ public class AuthenticationService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioRepository.findByEmail(username);
+        return usuarioService.buscarPorLogin(username);
     }
 }
