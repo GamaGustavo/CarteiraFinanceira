@@ -1,8 +1,10 @@
 package br.com.gamagustavo.carteirafinanceira.service;
 
-import br.com.gamagustavo.carteirafinanceira.repository.CarteiraRepository;
+import br.com.gamagustavo.carteirafinanceira.exception.ObjetoNaoEncontradoException;
+import br.com.gamagustavo.carteirafinanceira.exception.ValidacaoException;
 import br.com.gamagustavo.carteirafinanceira.model.Transacao;
 import br.com.gamagustavo.carteirafinanceira.model.entidade.Carteira;
+import br.com.gamagustavo.carteirafinanceira.repository.CarteiraRepository;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
@@ -19,27 +21,28 @@ public class CarteiraService {
         this.historicoService = historicoService;
     }
 
-    public BigDecimal saldo(Long usuarioId) throws BadRequestException {
+    public BigDecimal saldo(Long usuarioId) throws ObjetoNaoEncontradoException {
         Optional<Carteira> carteira = carteiraRepository.findByUsuario_id(usuarioId);
-        return carteira.orElseThrow(BadRequestException::new).getValor();
+        return carteira.orElseThrow(() -> new ObjetoNaoEncontradoException("Saldo não encontrado")).getValor();
     }
 
-    public void depositar(Long usuarioId, BigDecimal valor) throws BadRequestException {
-        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0) throw new BadRequestException();
-        if (usuarioId == null) throw new BadRequestException();
+    public void depositar(Long usuarioId, BigDecimal valor) throws ValidacaoException {
+        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0)
+            throw new ValidacaoException("Valor do deposito deve ser superior a 0!");
+        if (usuarioId == null) throw new ValidacaoException("Usuário invalido");
         Optional<Carteira> carteira = carteiraRepository.findByUsuario_id(usuarioId);
-        var carteiraFinal = carteira.orElseThrow(() -> new BadRequestException("Usuário inválido"));
+        var carteiraFinal = carteira.orElseThrow(() -> new ValidacaoException("Usuário inválido"));
 
         carteiraFinal.setValor(carteiraFinal.getValor().add(valor));
         carteiraRepository.save(carteiraFinal);
         historicoService.registrarHistorico(carteiraFinal, Transacao.DEPOSITO);
     }
 
-    public void sacar(Long usuarioId, BigDecimal valor) throws BadRequestException {
+    public void sacar(Long usuarioId, BigDecimal valor) throws ValidacaoException {
         if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0)
-            throw new BadRequestException("Valor do saque não pode ser negativo");
+            throw new ValidacaoException("Valor do saque não pode ser negativo");
         Optional<Carteira> carteira = carteiraRepository.findByUsuario_id(usuarioId);
-        var carteiraFinal = carteira.orElseThrow(() -> new BadRequestException("Usuário invalido"));
+        var carteiraFinal = carteira.orElseThrow(() -> new ValidacaoException("Usuário invalido"));
 
         if (carteiraFinal.getValor().compareTo(valor) < 0) {
             throw new RuntimeException("Não existe saldo o suficiente para o saque");
@@ -49,4 +52,6 @@ public class CarteiraService {
         carteiraRepository.save(carteiraFinal);
         historicoService.registrarHistorico(carteiraFinal, Transacao.SAQUE);
     }
+
+
 }
