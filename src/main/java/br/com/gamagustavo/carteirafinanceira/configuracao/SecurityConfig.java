@@ -47,7 +47,6 @@ public class SecurityConfig {
                         httpSecurityExceptionHandlingConfigurer
                                 .authenticationEntryPoint(customAuthenticationEntryPoint)
                 )
-
                 .formLogin(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

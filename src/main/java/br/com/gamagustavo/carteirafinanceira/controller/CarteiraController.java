@@ -8,6 +8,8 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/carteira")
 public class CarteiraController {
@@ -30,5 +32,10 @@ public class CarteiraController {
         if(saque == null) throw new ValidacaoException("Os campos do saque são obrigatórios!");
         carteiraService.sacar(saque.idUsuario(),saque.valor());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/saldo/{idUsuario}")
+    public ResponseEntity<BigDecimal> saldo(@PathVariable Long idUsuario) {
+        return ResponseEntity.ok(carteiraService.saldo(idUsuario));
     }
 }

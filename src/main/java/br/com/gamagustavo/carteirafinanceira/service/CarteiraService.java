@@ -4,6 +4,7 @@ import br.com.gamagustavo.carteirafinanceira.exception.ObjetoNaoEncontradoExcept
 import br.com.gamagustavo.carteirafinanceira.exception.ValidacaoException;
 import br.com.gamagustavo.carteirafinanceira.model.Transacao;
 import br.com.gamagustavo.carteirafinanceira.model.entidade.Carteira;
+import br.com.gamagustavo.carteirafinanceira.model.entidade.Usuario;
 import br.com.gamagustavo.carteirafinanceira.repository.CarteiraRepository;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
@@ -23,15 +24,15 @@ public class CarteiraService {
 
     public BigDecimal saldo(Long usuarioId) throws ObjetoNaoEncontradoException {
         Optional<Carteira> carteira = carteiraRepository.findByUsuario_id(usuarioId);
-        return carteira.orElseThrow(() -> new ObjetoNaoEncontradoException("Saldo não encontrado")).getValor();
+        return carteira.orElseThrow(() -> new ObjetoNaoEncontradoException("Saldo não encontrado, id do usuário incorreto!")).getValor();
     }
 
-    public void depositar(Long usuarioId, BigDecimal valor) throws ValidacaoException {
+    public void depositar(Long usuarioId, BigDecimal valor) throws ValidacaoException, ObjetoNaoEncontradoException {
         if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0)
             throw new ValidacaoException("Valor do deposito deve ser superior a 0!");
         if (usuarioId == null) throw new ValidacaoException("Usuário invalido");
         Optional<Carteira> carteira = carteiraRepository.findByUsuario_id(usuarioId);
-        var carteiraFinal = carteira.orElseThrow(() -> new ValidacaoException("Usuário inválido"));
+        var carteiraFinal = carteira.orElseThrow(() -> new ObjetoNaoEncontradoException("Carteira não encontrado, id do usuário incorreto!"));
 
         carteiraFinal.setValor(carteiraFinal.getValor().add(valor));
         carteiraRepository.save(carteiraFinal);
@@ -51,6 +52,12 @@ public class CarteiraService {
 
         carteiraRepository.save(carteiraFinal);
         historicoService.registrarHistorico(carteiraFinal, Transacao.SAQUE);
+    }
+
+    public Carteira criarCarteira(Usuario usuario) throws ValidacaoException {
+        var carteira = new Carteira();
+        carteira.setUsuario(usuario);
+        return carteiraRepository.save(carteira);
     }
 
 

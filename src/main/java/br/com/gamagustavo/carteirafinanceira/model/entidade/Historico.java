@@ -24,4 +24,8 @@ public class Historico {
     @ManyToOne
     @JoinColumn(name = "carteira_id")
     private Carteira carteira;
+
+    public Historico() {
+        data = LocalDate.now();
+    }
 }
