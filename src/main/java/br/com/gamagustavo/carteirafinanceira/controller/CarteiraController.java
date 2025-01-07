@@ -23,14 +23,14 @@ public class CarteiraController {
     @PostMapping("/deposito")
     public ResponseEntity<Void> depositar (@RequestBody Deposito deposito) throws BadRequestException {
         if(deposito == null) throw new ValidacaoException("Os campos do deposito são obrigatórios!");
-        carteiraService.depositar(deposito.idUsuario(),deposito.valor());
+        carteiraService.depositar(deposito.idUsuario(),new BigDecimal(deposito.valor()));
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/saque")
     public ResponseEntity<Void> sacar(@RequestBody Saque saque) throws BadRequestException {
         if(saque == null) throw new ValidacaoException("Os campos do saque são obrigatórios!");
-        carteiraService.sacar(saque.idUsuario(),saque.valor());
+        carteiraService.sacar(saque.idUsuario(),new BigDecimal(saque.valor()));
         return ResponseEntity.ok().build();
     }
 
