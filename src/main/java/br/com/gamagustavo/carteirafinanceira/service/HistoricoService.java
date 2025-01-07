@@ -6,6 +6,7 @@ import br.com.gamagustavo.carteirafinanceira.model.Transacao;
 import br.com.gamagustavo.carteirafinanceira.repository.HistoricoRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -15,10 +16,11 @@ public class HistoricoService {
         this.historicoRepository = historicoRepository;
     }
 
-    public void registrarHistorico(Carteira carteira, Transacao transacao) {
+    public void registrarHistorico(Carteira carteira, Transacao transacao, BigDecimal valor) {
         Historico historico = new Historico();
         historico.setCarteira(carteira);
         historico.setTransacao(transacao);
+        historico.setValor(valor);
         historicoRepository.save(historico);
     }
 

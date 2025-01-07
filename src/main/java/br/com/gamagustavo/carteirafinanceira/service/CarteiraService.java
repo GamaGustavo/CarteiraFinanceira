@@ -7,7 +7,6 @@ import br.com.gamagustavo.carteirafinanceira.model.dto.CarteiraDto;
 import br.com.gamagustavo.carteirafinanceira.model.entidade.Carteira;
 import br.com.gamagustavo.carteirafinanceira.model.entidade.Usuario;
 import br.com.gamagustavo.carteirafinanceira.repository.CarteiraRepository;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -37,7 +36,7 @@ public class CarteiraService {
 
         carteiraFinal.setValor(carteiraFinal.getValor().add(valor));
         carteiraRepository.save(carteiraFinal);
-        historicoService.registrarHistorico(carteiraFinal, Transacao.DEPOSITO);
+        historicoService.registrarHistorico(carteiraFinal, Transacao.DEPOSITO, valor);
     }
 
     public void sacar(Long usuarioId, BigDecimal valor) throws ValidacaoException {
@@ -47,12 +46,12 @@ public class CarteiraService {
         var carteiraFinal = carteira.orElseThrow(() -> new ValidacaoException("Usuário invalido"));
 
         if (carteiraFinal.getValor().compareTo(valor) < 0) {
-            throw new RuntimeException("Não existe saldo o suficiente para o saque");
+            throw new ValidacaoException("Não existe saldo o suficiente para o saque");
         }
         carteiraFinal.setValor(carteiraFinal.getValor().subtract(valor));
 
         carteiraRepository.save(carteiraFinal);
-        historicoService.registrarHistorico(carteiraFinal, Transacao.SAQUE);
+        historicoService.registrarHistorico(carteiraFinal, Transacao.SAQUE, valor);
     }
 
     public CarteiraDto criarCarteira(Usuario usuario) throws ValidacaoException {
