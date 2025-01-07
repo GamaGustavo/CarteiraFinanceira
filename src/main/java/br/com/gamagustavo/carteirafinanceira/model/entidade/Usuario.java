@@ -1,5 +1,6 @@
 package br.com.gamagustavo.carteirafinanceira.model.entidade;
 
+import br.com.gamagustavo.carteirafinanceira.model.dto.UsuarioDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -60,4 +61,7 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private String senha;
 
+    public UsuarioDto toDTO() {
+        return new UsuarioDto(this.id,this.nome,this.email);
+    }
 }

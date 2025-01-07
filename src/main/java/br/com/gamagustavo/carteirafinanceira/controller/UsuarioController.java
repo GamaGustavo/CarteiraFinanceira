@@ -1,6 +1,7 @@
 package br.com.gamagustavo.carteirafinanceira.controller;
 
 import br.com.gamagustavo.carteirafinanceira.model.dto.Cadastro;
+import br.com.gamagustavo.carteirafinanceira.model.dto.CarteiraDto;
 import br.com.gamagustavo.carteirafinanceira.model.entidade.Carteira;
 import br.com.gamagustavo.carteirafinanceira.service.CarteiraService;
 import br.com.gamagustavo.carteirafinanceira.service.UsuarioService;
@@ -26,7 +27,8 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Carteira> cadastrarUsuario(@RequestBody Cadastro cadastroUsuario) {
+    public ResponseEntity<CarteiraDto> cadastrarUsuario(@RequestBody Cadastro cadastroUsuario) {
+        cadastroUsuario.validarDados();
         var usuario = cadastroUsuario.toUsuario();
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         var usuarioCadastrado = usuarioService.cadastrar(usuario);

@@ -23,10 +23,8 @@ public class UsuarioService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsuarioNaoEncontradoException {
-
             var usuario = usuarioRepository.findByEmail(username);
             if (usuario == null) throw new UsuarioNaoEncontradoException("Falha na autenticação, usuário ou senha invalido!");
-
             return usuario;
 
     }

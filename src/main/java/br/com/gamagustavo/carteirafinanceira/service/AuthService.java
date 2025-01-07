@@ -20,7 +20,7 @@ public class AuthService {
     public String autenticar(Login login) {
 
         var usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(login.usuario(), login.senha());
+                new UsernamePasswordAuthenticationToken(login.email(), login.senha());
         var authentication = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         var usuario = (Usuario) authentication.getPrincipal();
         return tokenService.gerarToken(usuario);

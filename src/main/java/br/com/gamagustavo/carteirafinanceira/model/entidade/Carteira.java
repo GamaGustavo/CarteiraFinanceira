@@ -1,5 +1,6 @@
 package br.com.gamagustavo.carteirafinanceira.model.entidade;
 
+import br.com.gamagustavo.carteirafinanceira.model.dto.CarteiraDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,5 +26,9 @@ public class Carteira {
     public Carteira() {
         super();
         this.valor = BigDecimal.ZERO;
+    }
+
+    public CarteiraDto toDto() {
+        return new CarteiraDto(this.id , this.valor, this.usuario.toDTO());
     }
 }

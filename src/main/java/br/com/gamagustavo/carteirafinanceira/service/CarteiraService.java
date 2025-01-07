@@ -3,6 +3,7 @@ package br.com.gamagustavo.carteirafinanceira.service;
 import br.com.gamagustavo.carteirafinanceira.exception.ObjetoNaoEncontradoException;
 import br.com.gamagustavo.carteirafinanceira.exception.ValidacaoException;
 import br.com.gamagustavo.carteirafinanceira.model.Transacao;
+import br.com.gamagustavo.carteirafinanceira.model.dto.CarteiraDto;
 import br.com.gamagustavo.carteirafinanceira.model.entidade.Carteira;
 import br.com.gamagustavo.carteirafinanceira.model.entidade.Usuario;
 import br.com.gamagustavo.carteirafinanceira.repository.CarteiraRepository;
@@ -54,10 +55,10 @@ public class CarteiraService {
         historicoService.registrarHistorico(carteiraFinal, Transacao.SAQUE);
     }
 
-    public Carteira criarCarteira(Usuario usuario) throws ValidacaoException {
+    public CarteiraDto criarCarteira(Usuario usuario) throws ValidacaoException {
         var carteira = new Carteira();
         carteira.setUsuario(usuario);
-        return carteiraRepository.save(carteira);
+        return carteiraRepository.save(carteira).toDto();
     }
 
 
